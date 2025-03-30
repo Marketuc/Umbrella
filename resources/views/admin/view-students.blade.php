@@ -54,11 +54,11 @@
             </td>
                             <td class="border px-4 py-2">{{ $student->phone }}</td>
                             <td class="border px-4 py-2">
-                                <a href="" class="text-blue-500 hover:underline">Edit</a>
+                                <a href="" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
                                 <form action="{{ route('admin.remove.student', $student->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline ml-2">Delete</button>
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
                                 </form>
                             </td>
                         </tr>

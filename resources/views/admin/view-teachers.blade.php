@@ -37,10 +37,10 @@
                 @if($teacher->photo)
                     <button onclick="showPhotoModal('{{ asset('storage/' . $teacher->photo) }}')"
                         class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
-                        View Documents
+                        View Photo
                     </button>
                 @else
-                    <span class="text-gray-500">No Documents</span>
+                    <span class="text-gray-500">No Photo</span>
                 @endif
             </td>
                             <td class="border px-4 py-2">

@@ -37,6 +37,9 @@ Route::get('/admin/view-teachers', [AdminController::class, 'viewTeachers'])->na
 
 Route::get('/admin/add-subject', [AdminController::class, 'showAddSubjectForm'])->name('admin.add.subjects');
 Route::post('/admin/store-subject', [AdminController::class, 'storeSubject'])->name('admin.store.subject');
+Route::get('/admin/view-subjects', [AdminController::class, 'viewSubjects'])->name('admin.view.subjects');
 
-
+Route::get('/admin/class/create', [AdminController::class, 'createClass'])->name('admin.create.class');
+Route::post('/admin/class/store', [AdminController::class, 'storeClass'])->name('admin.store.class');
+Route::get('/admin/view-classes', [AdminController::class, 'viewClasses'])->name('admin.view.classes');
 require __DIR__.'/auth.php';

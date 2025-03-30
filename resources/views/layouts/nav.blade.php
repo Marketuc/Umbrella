@@ -35,7 +35,17 @@
                 </button>
                 <div id="subjectDropdown" class="hidden absolute bg-white text-black shadow-md rounded-lg w-40 mt-2">
                     <a href="{{ route('admin.add.subjects') }}" class="block px-4 py-2 hover:bg-gray-200">Add Subject</a>
-                    <a href="" class="block px-4 py-2 hover:bg-gray-200">View Subjects</a>
+                    <a href="{{ route('admin.view.subjects') }}" class="block px-4 py-2 hover:bg-gray-200">View Subjects</a>
+                </div>
+            </div>
+            <!-- Class Dropdown -->
+            <div class="relative inline-block">
+                <button onclick="toggleDropdown('classDropdown')" class="hover:underline focus:outline-none">
+                    Class
+                </button>
+                <div id="classDropdown" class="hidden absolute bg-white text-black shadow-md rounded-lg w-40 mt-2">
+                    <a href="{{ route('admin.create.class') }}" class="block px-4 py-2 hover:bg-gray-200">Add Class</a>
+                    <a href="{{ route('admin.view.classes') }}" class="block px-4 py-2 hover:bg-gray-200">View Classes</a>
                 </div>
             </div>
         @endif

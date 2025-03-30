@@ -26,6 +26,7 @@
                     <th class="border p-2">Name</th>
                     <th class="border p-2">Email</th>
                     <th class="border p-2">Program</th>
+                    <th class="border p-2">Phone</th>
                     <th class="border p-2">Documents</th>
                     <th class="border p-2">Action</th>
                 </tr>
@@ -36,6 +37,7 @@
     <td class="border p-2">{{ $student->name }}</td>
     <td class="border p-2">{{ $student->email }}</td>
     <td class="border p-2">{{ $student->program }}</td>
+    <td class="border p-2">{{ $student->phone }}</td>
     <td class="border p-2">
     @if($student->photo)
         <button onclick="showPhotoModal('{{ asset('storage/' . $student->photo) }}')" 

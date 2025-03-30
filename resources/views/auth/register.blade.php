@@ -19,7 +19,7 @@
 
 </head>
 <body class="bg-cover bg-center min-h-screen flex items-center justify-center" 
-    style="background-image: url('{{ asset('storage/schoolbackground.png') }}');">
+    style="background-image: url('{{ asset('storage/schoolbg.png') }}');">
 
     <div class="bg-white p-10 rounded-lg shadow-xl w-full max-w-2xl">
         <div class="flex justify-center mb-4">
@@ -112,7 +112,7 @@
 
             <!-- Profile Photo -->
             <div class="mt-4">
-                <x-input-label for="photo" :value="__('Profile Photo')" />
+                <x-input-label for="photo" :value="__('Documents (Form 137)')" />
                 <input id="photo" class="block mt-1 w-full border-gray-300 rounded-lg p-3"
                     type="file" name="photo" accept="image/*" />
                 <x-input-error :messages="$errors->get('photo')" class="mt-2" />

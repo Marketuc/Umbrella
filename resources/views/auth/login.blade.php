@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Breeze default styles -->
 </head>
 <body class="bg-cover bg-center min-h-screen flex items-center justify-center" 
-    style="background-image: url('{{ asset('storage/schoolbackground.png') }}');">
+    style="background-image: url('{{ asset('storage/schoolbg.png') }}');">
 
     <div class="bg-white p-10 rounded-lg shadow-xl w-full max-w-2xl">
         <div class="flex justify-center mb-4">

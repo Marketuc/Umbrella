@@ -15,7 +15,7 @@ class Subject extends Model
      * Get the teacher associated with the subject.
      */
     public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
+{
+    return $this->belongsTo(User::class, 'teacher_id')->where('user_type', 'teacher');
 }
+};

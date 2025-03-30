@@ -6,7 +6,7 @@
     <title>Welcome to Our School</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="h-screen  bg-cover bg-center" style="background-image: url('{{ asset('storage/schoolbackground.png') }}');">
+<body class="h-screen  bg-cover bg-center" style="background-image: url('{{ asset('storage/schoolbg.png') }}');">
 
     <!-- Overlay -->
     <div class="h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
