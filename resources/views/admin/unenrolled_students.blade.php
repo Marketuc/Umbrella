@@ -8,46 +8,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <!-- Navbar -->
-    <nav class="bg-[#001F3F] text-white p-4 shadow-md"> <!-- Deep Navy Blue -->
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <img src="{{ asset('storage/schoollogo.jpg') }}" alt="School Logo" class="h-10"> <!-- School Logo -->
-                <a href="{{ route('dashboard') }}" class="text-lg font-bold">Umbrella Academy</a>
-            </div>
-            <div class="space-x-4">
-                <a href="{{ route('dashboard') }}" class="hover:underline">Dashboard</a>
-                @if(Auth::user()->user_type !== 'admin')
-                <a href="{{ route('profile.show') }}" class="hover:underline">Profile</a>
-                @endif
-
-                @if(Auth::user()->user_type === 'admin')
-                    <a href="#" class="hover:underline">Add Student</a>
-                    <a href="#" class="hover:underline">Add Teacher</a>
-                    <a href="#" class="hover:underline">Add Class</a>
-                @endif
-                
-                @if(Auth::user()->user_type !== 'admin')
-                    <a href="#" class="hover:underline">Schedule</a>
-                @endif
-                
-                
-                @if(Auth::user()->user_type === 'student')
-                    <a href="#" class="hover:underline">Ledger</a>
-                    <a href="#" class="hover:underline">Absences</a>
-                @endif
-
-                @if(Auth::user()->user_type === 'teacher')
-                    <a href="#" class="hover:underline">Attendance</a>
-                @endif
-                
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
-                    <button type="submit" class="hover:underline">Logout</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+@include('layouts.nav')
 
     <!-- Unenrolled Students Table -->
     <div class="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
@@ -64,33 +25,77 @@
                 <tr class="bg-gray-200">
                     <th class="border p-2">Name</th>
                     <th class="border p-2">Email</th>
-                    <th class="border p-2">Username</th>
+                    <th class="border p-2">Program</th>
+                    <th class="border p-2">Documents</th>
                     <th class="border p-2">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($students as $student)
-                    <tr>
-                        <td class="border p-2">{{ $student->name }}</td>
-                        <td class="border p-2">{{ $student->email }}</td>
-                        <td class="border p-2">{{ $student->username }}</td>
-                        <td class="border p-2">
-                            <form action="{{ route('admin.approve.student', $student->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                    Approve
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="text-center p-4">No unenrolled students found.</td>
-                    </tr>
-                @endforelse
+            @forelse($students as $student)
+<tr>
+    <td class="border p-2">{{ $student->name }}</td>
+    <td class="border p-2">{{ $student->email }}</td>
+    <td class="border p-2">{{ $student->program }}</td>
+    <td class="border p-2">
+    @if($student->photo)
+        <button onclick="showPhotoModal('{{ asset('storage/' . $student->photo) }}')" 
+            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            View Documents
+        </button>
+    @else
+        <span class="text-red-500">No Documents</span>
+    @endif
+</td>
+    <td class="border p-2 flex space-x-2">
+        <!-- Approve Button -->
+        <form action="{{ route('admin.approve.student', $student->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Approve
+            </button>
+        </form>
+
+        <!-- Remove Button -->
+        <form action="{{ route('admin.remove.student', $student->id) }}" method="POST"
+              onsubmit="return confirm('Are you sure you want to remove this student?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Remove
+            </button>
+        </form>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="5" class="text-center p-4">No unenrolled students found.</td>
+</tr>
+@endforelse
+
+
             </tbody>
         </table>
     </div>
+
+<div id="photoModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-4 rounded-lg shadow-lg">
+        <img id="modalPhoto" src="" alt="Student Photo" class="max-w-full h-auto rounded-lg">
+        <button onclick="closePhotoModal()" class="mt-4 bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
+            Close
+        </button>
+    </div>
+</div>
+
+<script>
+    function showPhotoModal(photoUrl) {
+        document.getElementById('modalPhoto').src = photoUrl;
+        document.getElementById('photoModal').classList.remove('hidden');
+    }
+
+    function closePhotoModal() {
+        document.getElementById('photoModal').classList.add('hidden');
+    }
+</script>
 
 </body>
 </html>

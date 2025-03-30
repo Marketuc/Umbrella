@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email', 'dob', 'gender', 'username', 'password', 'phone', 'photo', 'user_type'
+        'name', 'email', 'dob', 'gender', 'username', 'password', 'phone', 'photo', 'user_type','program',
     ];
 
     protected $attributes = [
@@ -49,5 +49,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    // Scope to get only teachers
+    public function scopeTeachers($query)
+    {
+        return $query->where('user_type', 'teacher');
     }
 }

@@ -8,46 +8,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <!-- Navbar -->
-    <nav class="bg-[#001F3F] text-white p-4 shadow-md"> <!-- Deep Navy Blue -->
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <img src="{{ asset('storage/schoollogo.jpg') }}" alt="School Logo" class="h-10"> <!-- School Logo -->
-                <a href="{{ route('dashboard') }}" class="text-lg font-bold">Umbrella Academy</a>
-            </div>
-            <div class="space-x-4">
-                <a href="{{ route('dashboard') }}" class="hover:underline">Dashboard</a>
-                @if(Auth::user()->user_type !== 'admin')
-                <a href="{{ route('profile.show') }}" class="hover:underline">Profile</a>
-                @endif
-
-                @if(Auth::user()->user_type === 'admin')
-                    <a href="{{ route('admin.unenrolled.students') }}" class="hover:underline">Add Student</a>
-                    <a href="#" class="hover:underline">Add Teacher</a>
-                    <a href="#" class="hover:underline">Add Class</a>
-                @endif
-                
-                @if(Auth::user()->user_type !== 'admin')
-                    <a href="#" class="hover:underline">Schedule</a>
-                @endif
-                
-                
-                @if(Auth::user()->user_type === 'student')
-                    <a href="#" class="hover:underline">Ledger</a>
-                    <a href="#" class="hover:underline">Absences</a>
-                @endif
-
-                @if(Auth::user()->user_type === 'teacher')
-                    <a href="#" class="hover:underline">Attendance</a>
-                @endif
-                
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
-                    <button type="submit" class="hover:underline">Logout</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+@include('layouts.nav')
 
   <!-- Dashboard Content -->
 <div class="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">

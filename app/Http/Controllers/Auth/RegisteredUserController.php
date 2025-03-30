@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Route;
 
 class RegisteredUserController extends Controller
 {
@@ -36,9 +37,10 @@ class RegisteredUserController extends Controller
         'gender' => ['nullable', 'in:male,female,other'],
         'username' => ['required', 'string', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
-        'phone' => ['nullable', 'string', 'max:20'],
-        'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        'phone' => ['required', 'string', 'max:20'],
+        'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         'user_type' => ['required', 'in:admin,teacher,student'],
+        'program' => ['required', 'string', 'max:255'],
     ]);
 
     // Handle photo upload
@@ -58,10 +60,11 @@ class RegisteredUserController extends Controller
         'phone' => $request->phone,
         'photo' => $photoPath,
         'user_type' => $request->user_type,
+        'program' => $request->program,
     ]);
 
     Auth::login($user);
 
-    return redirect(RouteServiceProvider::HOME);
+    return redirect('/dashboard');
 }
 }

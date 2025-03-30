@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Storage;
 use App\Providers\RouteServiceProvider;
+
 class RegisterController extends Controller
 {
     public function show()

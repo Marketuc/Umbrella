@@ -12,7 +12,7 @@
     <nav class="bg-[#001F3F] text-white p-4 shadow-md"> <!-- Deep Navy Blue -->
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <img src="{{ asset('storage/schoollogo.jpg') }}" alt="School Logo" class="h-10"> <!-- School Logo -->
+                <img src="{{ asset('storage/schoollogo.png') }}" alt="School Logo" class="h-10"> <!-- School Logo -->
                 <a href="{{ route('dashboard') }}" class="text-lg font-bold">Umbrella Academy</a>
             </div>
             <div class="space-x-4">
@@ -63,13 +63,18 @@
                     {{ ucfirst($user->user_type) }}
                 </span>
             </p>
+            @if(Auth::user()->user_type === 'teacher' && $user->program)
+            <p><strong>Department:</strong> <span class="text-gray-700">{{ $user->program }}</span></p>
+            @endif
             @if(Auth::user()->user_type === 'student' && $user->program)
             <p><strong>Program:</strong> <span class="text-gray-700">{{ $user->program }}</span></p>
             @endif
+            @if(Auth::user()->user_type === 'student' && $user->program)
             <p><strong>Enrollment:</strong> 
     <span class="text-gray-700">
         {{ $user->enrolled ? 'Enrolled' : 'Not yet Enrolled, Visit the Office to officially enroll' }}
     </span>
+    @endif
 </p>
         </div>
     </div>
