@@ -54,7 +54,7 @@
             </td>
                             <td class="border px-4 py-2">{{ $student->phone }}</td>
                             <td class="border px-4 py-2">
-                                <a href="" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
+                                <a href="{{ route('admin.edit.student', $student->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
                                 <form action="{{ route('admin.remove.student', $student->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')

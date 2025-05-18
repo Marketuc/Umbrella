@@ -20,7 +20,7 @@
                     <th class="border px-6 py-3">Day</th>
                     <th class="border px-6 py-3">Start Time</th>
                     <th class="border px-6 py-3">End Time</th>
-                    <th class="border px-6 py-3">Students Name</th>
+                    <th class="border px-6 py-3">Students</th>
                     <th class="border px-6 py-3">Subjects Assigned</th>
                     <th class="border px-6 py-3">Actions</th>
                 </tr>
@@ -37,15 +37,26 @@
                         $subjectsList = $subjects->where('class_id', $class->id);
                     @endphp
                     
-                    <td class="border px-6 py-3">{{ $schedule->day ?? 'N/A' }}</td>
-                    <td class="border px-6 py-3">{{ $schedule->start_time ?? 'N/A' }}</td>
-                    <td class="border px-6 py-3">{{ $schedule->end_time ?? 'N/A' }}</td>
+                    <td class="border px-6 py-3" colspan="3">
+    @php
+        $classSchedules = $schedules->where('class_id', $class->id);
+    @endphp
+
+    @forelse($classSchedules as $schedule)
+        <div>
+            <strong>{{ $schedule->day }}:</strong>
+            {{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }} - 
+            {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}
+        </div>
+    @empty
+        N/A
+    @endforelse
+</td>
+
                     
                     <td class="border px-6 py-3">
-                        @foreach($studentsList as $cs)
-                            {{ $cs->student->name ?? 'N/A' }}<br>
-                        @endforeach
-                    </td>
+    {{ $studentsList->count() }} student{{ $studentsList->count() !== 1 ? 's' : '' }}
+</td>
                     
                     <td class="border px-6 py-3">
                         @foreach($subjectsList as $cs)
@@ -54,13 +65,14 @@
                     </td>
                     
                     <td class="border px-6 py-3">
-                        <a href="#" class="text-blue-500 hover:underline">Edit</a>
-                        <form action="#" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline">Delete</button>
-                        </form>
-                    </td>
+    <a href="{{ route('admin.edit.class', $class->id) }}" class="text-blue-500 hover:underline">Edit</a>
+    
+    <form action="{{ route('admin.delete.class', $class->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this class?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-500 hover:underline ml-2">Delete</button>
+    </form>
+</td>
                 </tr>
                 @endforeach
             </tbody>

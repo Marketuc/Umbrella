@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Schedule | Umbrella Academy</title>
+    <title>Teacher Schedule | Umbrella Academy</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- FullCalendar CSS -->
@@ -13,11 +13,12 @@
     @include('layouts.nav')
 
     <div class="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-        <h2 class="text-2xl font-bold mb-4">Class Schedule</h2>
+        <h2 class="text-2xl font-bold mb-4">My Teaching Schedule</h2>
         
         @if($schedules->isEmpty())
-            <p class="text-gray-500">No schedules available.</p>
+            <p class="text-gray-500">No schedules assigned.</p>
         @else
+            <!-- Table View -->
             <table class="w-full border-collapse border border-gray-300 mb-10">
                 <thead>
                     <tr class="bg-gray-200">
@@ -29,17 +30,18 @@
                 </thead>
                 <tbody>
                     @foreach($schedules as $schedule)
-                        <tr>
-                            <td class="border border-gray-300 px-4 py-2">{{ $schedule->class->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $schedule->day }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ date('h:i A', strtotime($schedule->start_time)) }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ date('h:i A', strtotime($schedule->end_time)) }}</td>
-                        </tr>
-                    @endforeach
+    <tr>
+        <td class="border border-gray-300 px-4 py-2">{{ $schedule->class->name }}</td>
+        <td class="border border-gray-300 px-4 py-2">{{ $schedule->day }}</td>
+        <td class="border border-gray-300 px-4 py-2">{{ date('h:i A', strtotime($schedule->start_time)) }}</td>
+        <td class="border border-gray-300 px-4 py-2">{{ date('h:i A', strtotime($schedule->end_time)) }}</td>
+    </tr>
+@endforeach
+
                 </tbody>
             </table>
 
-            <!-- Calendar Section -->
+            <!-- Calendar View -->
             <h3 class="text-xl font-semibold mb-4">Weekly Calendar View</h3>
             <div id="calendar"></div>
         @endif
@@ -47,7 +49,6 @@
 
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

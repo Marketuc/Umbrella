@@ -11,7 +11,7 @@
 
     <div class="bg-white p-10 rounded-lg shadow-xl w-full max-w-2xl">
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('storage/schoollogo.jpg') }}" alt="School Logo" class="h-16">
+            <img src="{{ asset('storage/schoollogo.png') }}" alt="School Logo" class="h-16">
         </div>
 
         <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Umbrella Academy</h2>

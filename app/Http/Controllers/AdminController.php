@@ -11,6 +11,8 @@ use App\Models\Classroom;
 use App\Models\ClassSubject;
 use App\Models\ClassStudent;
 use App\Models\ClassSchedule;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdminController extends Controller
 {
@@ -200,4 +202,163 @@ public function createClass()
 
         return view('admin.view-class', compact('classes', 'schedules', 'students', 'subjects'));
     }
+
+    public function editStudent($id)
+{
+    $student = User::where('user_type', 'student')->findOrFail($id);
+    return view('admin.edit-student', compact('student'));
+}
+
+public function updateStudent(Request $request, $id)
+{
+    $student = User::where('user_type', 'student')->findOrFail($id);
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $student->id,
+        'program' => 'nullable|string|max:255',
+        'phone' => 'nullable|string|max:20',
+        'enrolled' => 'required|boolean',
+    ]);
+
+    $student->update($validated);
+
+    return redirect()->route('admin.view.students')->with('success', 'Student updated successfully.');
+}
+
+public function editTeacher($id)
+{
+    $teacher = User::findOrFail($id);
+    return view('admin.edit-teachers', compact('teacher'));
+}
+
+public function updateTeacher(Request $request, $id)
+{
+    $teacher = User::findOrFail($id);
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $teacher->id,
+        'program' => 'nullable|string|max:255',
+        'phone' => 'nullable|string|max:20',
+        'photo' => 'nullable|image|max:2048', // max 2MB image
+    ]);
+
+    $teacher->name = $request->name;
+    $teacher->email = $request->email;
+    $teacher->program = $request->program;
+    $teacher->phone = $request->phone;
+
+    if ($request->hasFile('photo')) {
+        // Delete old photo if exists
+        if ($teacher->photo && Storage::exists('public/' . $teacher->photo)) {
+            Storage::delete('public/' . $teacher->photo);
+        }
+        // Store new photo
+        $path = $request->file('photo')->store('teachers', 'public');
+        $teacher->photo = $path;
+    }
+
+    $teacher->save();
+
+    return redirect()->route('admin.view.teachers')->with('success', 'Teacher updated successfully.');
+}
+
+public function deleteTeacher($id)
+{
+    $teacher = User::findOrFail($id);
+    $teacher->delete();
+    return redirect()->route('admin.view.teachers.update')->with('success', 'Teacher deleted successfully.');
+}
+
+public function editSubject($id)
+{
+    $subject = Subject::findOrFail($id);
+    return view('admin.edit-subject', compact('subject'));
+}
+
+public function updateSubject(Request $request, $id)
+{
+    $subject = Subject::findOrFail($id);
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'code' => 'required|string|max:50|unique:subjects,code,' . $subject->id,
+        'description' => 'nullable|string',
+    ]);
+
+    $subject->name = $request->name;
+    $subject->code = $request->code;
+    $subject->description = $request->description;
+    $subject->save();
+
+    return redirect()->route('admin.view.subjects')->with('success', 'Subject updated successfully.');
+}
+
+public function deleteSubject($id)
+{
+    $subject = Subject::findOrFail($id);
+    $subject->delete();
+
+    return redirect()->route('admin.view.subjects')->with('success', 'Subject deleted successfully.');
+}
+
+
+public function editClass($id)
+{
+    $class = Classroom::with('teacher')->findOrFail($id);
+    $teachers = User::where('user_type', 'teacher')->get();
+    $students = User::where('user_type', 'student')->get();
+    $classSchedule = ClassSchedule::where('class_id', $id)->first();
+    $assignedStudents = ClassStudent::where('class_id', $id)->pluck('student_id')->toArray();
+
+    return view('admin.edit-class', compact('class', 'teachers', 'students', 'classSchedule', 'assignedStudents'));
+}
+
+public function updateClass(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string',
+        'teacher_id' => 'nullable|exists:users,id',
+        'day' => 'required|string',
+        'start_time' => 'required',
+        'end_time' => 'required',
+        'students' => 'array',
+    ]);
+
+    $class = Classroom::findOrFail($id);
+    $class->update([
+        'name' => $request->name,
+        'teacher_id' => $request->teacher_id,
+    ]);
+
+    ClassSchedule::updateOrCreate(
+        ['class_id' => $id],
+        ['day' => $request->day, 'start_time' => $request->start_time, 'end_time' => $request->end_time]
+    );
+
+    ClassStudent::where('class_id', $id)->delete();
+    if ($request->students) {
+        foreach ($request->students as $student_id) {
+            ClassStudent::create([
+                'class_id' => $id,
+                'student_id' => $student_id,
+            ]);
+        }
+    }
+
+    return redirect()->route('admin.view.classes')->with('success', 'Class updated successfully.');
+}
+
+public function deleteClass($id)
+{
+    Classroom::destroy($id);
+    ClassSchedule::where('class_id', $id)->delete();
+    ClassStudent::where('class_id', $id)->delete();
+    ClassSubject::where('class_id', $id)->delete();
+
+    return redirect()->route('admin.view.classes')->with('success', 'Class deleted successfully.');
+}
+
+
 }

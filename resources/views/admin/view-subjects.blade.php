@@ -28,9 +28,14 @@
                 <td class="border px-6 py-3">{{ $subject->code }}</td>
                 <td class="border px-6 py-3">{{ $subject->description }}</td>
                 <td class="border px-6 py-3 flex space-x-2">
-                    <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
-                    <a href="#" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</a>
-                </td>
+    <a href="{{ route('admin.subject.edit', $subject->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
+    <form action="{{ route('admin.subject.delete', $subject->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this subject?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
+    </form>
+</td>
+
             </tr>
             @endforeach
         </tbody>

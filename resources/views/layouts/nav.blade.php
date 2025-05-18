@@ -58,9 +58,7 @@
     <div id="studentMenu" class="hidden absolute bg-white text-black shadow-md rounded-lg w-40 mt-2">
         <a href="{{ route('profile.show') }}" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
         <a href="{{ route('student.view.classes') }}" class="block px-4 py-2 hover:bg-gray-200">View Schedule</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Ledger</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Email Teacher</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Grades</a>
+        <a href="{{ route('student.grade.classes') }}" class="block px-4 py-2 hover:bg-gray-200">Grades</a>
     </div>
 </div>
 @endif @if(Auth::user()->user_type === 'teacher')
@@ -71,9 +69,8 @@
     </button>
     <div id="teacherMenu" class="hidden absolute bg-white text-black shadow-md rounded-lg w-40 mt-2">
         <a href="{{ route('profile.show') }}" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">View Schedule</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Email Student</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Grading</a>
+        <a href="{{ route('teacher.schedule') }}" class="block px-4 py-2 hover:bg-gray-200">View Schedule</a>
+        <a href="{{ route('teacher.classes') }}" class="block px-4 py-2 hover:bg-gray-200">Grading</a>
     </div>
 </div>
 @endif

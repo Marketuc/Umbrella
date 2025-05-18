@@ -16,7 +16,6 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="border px-4 py-2">ID</th>
                         <th class="border px-4 py-2">Name</th>
                         <th class="border px-4 py-2">Email</th>
                         <th class="border px-4 py-2">Department</th>
@@ -28,7 +27,6 @@
                 <tbody>
                     @foreach($teachers as $teacher)
                         <tr class="text-center">
-                            <td class="border px-4 py-2">{{ $teacher->id }}</td>
                             <td class="border px-4 py-2">{{ $teacher->name }}</td>
                             <td class="border px-4 py-2">{{ $teacher->email }}</td>
                             <td class="border px-4 py-2">{{ $teacher->program }}</td>
@@ -44,8 +42,12 @@
                 @endif
             </td>
                             <td class="border px-4 py-2">
-                                <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
-                                <a href="#" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</a>
+                                <a href="{{ route('admin.edit.teacher', $teacher->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
+                                <form action="{{ route('admin.delete.teacher', $teacher->id) }}" method="POST" class="inline">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
+</form>
                             </td>
                         </tr>
                     @endforeach

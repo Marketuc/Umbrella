@@ -56,4 +56,16 @@ class User extends Authenticatable
     {
         return $query->where('user_type', 'teacher');
     }
+    
+    public function classes()
+{
+    return $this->hasMany(Classroom::class, 'teacher_id');
+}
+
+public function grade()
+{
+    return $this->hasOne(Grade::class, 'student_id', 'id');
+}
+
+
 }
