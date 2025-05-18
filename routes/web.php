@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\StudentController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -42,4 +42,6 @@ Route::get('/admin/view-subjects', [AdminController::class, 'viewSubjects'])->na
 Route::get('/admin/class/create', [AdminController::class, 'createClass'])->name('admin.create.class');
 Route::post('/admin/class/store', [AdminController::class, 'storeClass'])->name('admin.store.class');
 Route::get('/admin/view-classes', [AdminController::class, 'viewClasses'])->name('admin.view.classes');
+
+Route::get('/student/view-schedule', [StudentController::class, 'viewSchedule'])->name('student.view.classes');
 require __DIR__.'/auth.php';

@@ -35,15 +35,7 @@
                     <label class="block font-medium">Description</label>
                     <textarea name="description" class="w-full p-2 border rounded"></textarea>
                 </div>
-                <div>
-                    <label class="block font-medium">Assign Teacher</label>
-                    <select name="teacher_id" class="w-full p-2 border rounded" required>
-                        <option value="">Select a Teacher</option>
-                        @foreach($teachers as $teacher)
-                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+
             </div>
             <div class="mt-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">

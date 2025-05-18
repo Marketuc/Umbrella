@@ -50,6 +50,7 @@
                 <li><a href="#" class="text-blue-600 hover:underline">Download Assignments</a></li>
             </ul>
         @endif
+        
     </div>
 
     <!-- Recent Announcements -->

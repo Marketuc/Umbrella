@@ -22,4 +22,9 @@ class ClassSchedule extends Model
     {
         return $this->belongsTo(Subject::class, 'subject_id');
     }
+
+    public function class()
+    {
+        return $this->belongsTo(Classroom::class); // Change ClassModel to your actual model name
+    }
 }
